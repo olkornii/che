@@ -218,7 +218,7 @@ export class Dashboard {
 	async chooseEditor(editor: string, timeout: number = TIMEOUT_CONSTANTS.TS_CLICK_DASHBOARD_ITEM_TIMEOUT): Promise<void> {
 		Logger.debug();
 
-		await this.driverHelper.waitAndClick(editor, timeout);
+		await this.driverHelper.waitAndClick(By.xpath(editor), timeout);
 	}
 
 	private getAboutMenuItemButtonLocator(text: string): By {
