@@ -85,6 +85,18 @@ export class WorkspaceHandlingTests {
 		await this.dashboard.clickOnCreateNewWorkspaceButton();
 	}
 
+	async createAndOpenWorkspaceWithSpecificEditorAndSample(editor: string, stack: string): Promise<void> {
+		Logger.debug('create and open workspace with specific Editor and Sample');
+		await this.selectEditor(editor);
+		await this.createAndOpenWorkspace(stack);
+	}
+
+	async selectEditor(editor: string): Promise<void> {
+		await this.dashboard.openChooseEditorMenu();
+		await this.dashboard.chooseEditor(editor);
+
+	}
+
 	async obtainWorkspaceNameFromStartingPage(): Promise<void> {
 		const timeout: number = TIMEOUT_CONSTANTS.TS_SELENIUM_START_WORKSPACE_TIMEOUT;
 		const polling: number = TIMEOUT_CONSTANTS.TS_SELENIUM_DEFAULT_POLLING;
