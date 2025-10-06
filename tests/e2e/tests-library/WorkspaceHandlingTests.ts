@@ -18,7 +18,7 @@ import { Logger } from '../utils/Logger';
 import { ApiUrlResolver } from '../utils/workspace/ApiUrlResolver';
 import { TIMEOUT_CONSTANTS } from '../constants/TIMEOUT_CONSTANTS';
 import { DriverHelper } from '../utils/DriverHelper';
-import { By, error } from 'selenium-webdriver';
+import { By, error, Key } from 'selenium-webdriver';
 
 @injectable()
 export class WorkspaceHandlingTests {
@@ -92,8 +92,16 @@ export class WorkspaceHandlingTests {
 	}
 
 	async selectEditor(editor: string): Promise<void> {
+		Logger.debug('select Editor. Editor: ' + editor)
 		await this.dashboard.openChooseEditorMenu();
 		await this.dashboard.chooseEditor(editor);
+	}
+
+	async getTextFromWorkspaceElement(xpath: string): Promise<string> {
+		Logger.debug('closing popup');
+		await this.driverHelper.getDriver().actions().sendKeys(Key.ESCAPE).perform(); // need to think about it a little
+		Logger.debug('returning text from xPath: ' + xpath);
+		return await this.driverHelper.getDriver().findElement(By.xpath(xpath)).getText();
 	}
 
 	async obtainWorkspaceNameFromStartingPage(): Promise<void> {

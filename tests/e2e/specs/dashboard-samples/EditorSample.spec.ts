@@ -25,7 +25,8 @@ import axios from 'axios';
 import { BASE_TEST_CONSTANTS } from '../../constants/BASE_TEST_CONSTANTS';
 import { OAUTH_CONSTANTS } from '../../constants/OAUTH_CONSTANTS';
 import { Logger } from '../../utils/Logger';
-import { By } from 'selenium-webdriver';
+import { By, Key } from 'selenium-webdriver';
+import { DriverHelper } from '../../utils/DriverHelper';
 
 // suit works for DevSpaces
 suite(`Check all versions of Intellij Idea`, function (): void {
@@ -45,6 +46,8 @@ suite(`Check all versions of Intellij Idea`, function (): void {
 	const browserTabsUtil: BrowserTabsUtil = e2eContainer.get(CLASSES.BrowserTabsUtil);
 	const majorMinorVersion: string = BASE_TEST_CONSTANTS.TESTING_APPLICATION_VERSION.split('.').slice(0, 2).join('.'); // extract major.minor version from full version
 
+
+	const htmlElementForCheck: string = '/html/body/h1';
 	const emptyWorkspace: string = 'Empty Workspace';
 	const IntellijEditorUltimate: string = '//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]';
 	const IntellijEditorPyCharm: string = '//*[@id="editor-selector-card-che-incubator/che-pycharm-server/latest"]'
@@ -59,10 +62,7 @@ suite(`Check all versions of Intellij Idea`, function (): void {
 
 	test('Test Intellij Idea Ultimate Editor', async function (): Promise<void> {
 		await workspaceHandlingTests.createAndOpenWorkspaceWithSpecificEditorAndSample(IntellijEditorUltimate, emptyWorkspace);
-
-		By.xpath(`/html/body/h1`).toString();
-		Logger.debug(By.xpath(`/html/body/h1`).toString());
-		Logger.debug(By.xpath(`/html/body/h1`).value);
+		await workspaceHandlingTests.getTextFromWorkspaceElement(htmlElementForCheck);
 
 		await workspaceHandlingTests.obtainWorkspaceNameFromStartingPage();
 		await workspaceHandlingTests.stopAndRemoveWorkspace(WorkspaceHandlingTests.getWorkspaceName());
