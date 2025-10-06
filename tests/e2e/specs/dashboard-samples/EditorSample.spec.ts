@@ -62,7 +62,7 @@ suite(`Check all versions of Intellij Idea`, function (): void {
 
 	test('Test Intellij Idea Ultimate Editor', async function (): Promise<void> {
 		await workspaceHandlingTests.createAndOpenWorkspaceWithSpecificEditorAndSample(IntellijEditorUltimate, emptyWorkspace);
-		await workspaceHandlingTests.getTextFromWorkspaceElement(htmlElementForCheck);
+		Logger.debug(await workspaceHandlingTests.getTextFromWorkspaceElement(htmlElementForCheck));
 
 		await workspaceHandlingTests.obtainWorkspaceNameFromStartingPage();
 		await workspaceHandlingTests.stopAndRemoveWorkspace(WorkspaceHandlingTests.getWorkspaceName());

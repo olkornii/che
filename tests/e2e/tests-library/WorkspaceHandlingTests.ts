@@ -99,8 +99,10 @@ export class WorkspaceHandlingTests {
 
 	async getTextFromWorkspaceElement(xpath: string): Promise<string> {
 		Logger.debug('closing popup');
+		await this.driverHelper.wait(10000);
 		await this.driverHelper.getDriver().actions().sendKeys(Key.ESCAPE).perform(); // need to think about it a little
 		Logger.debug('returning text from xPath: ' + xpath);
+		await this.driverHelper.wait(10000);
 		return await this.driverHelper.getDriver().findElement(By.xpath(xpath)).getText();
 	}
 
