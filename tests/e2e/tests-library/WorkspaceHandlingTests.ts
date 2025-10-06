@@ -86,7 +86,7 @@ export class WorkspaceHandlingTests {
 	}
 
 	async createAndOpenWorkspaceWithSpecificEditorAndSample(editor: string, stack: string): Promise<void> {
-		Logger.debug('create and open workspace with specific Editor and Sample');
+		Logger.debug('create and open workspace with specific Editor and Sample. Sample: ' + stack);
 		await this.selectEditor(editor);
 		await this.createAndOpenWorkspace(stack);
 	}
@@ -94,7 +94,6 @@ export class WorkspaceHandlingTests {
 	async selectEditor(editor: string): Promise<void> {
 		await this.dashboard.openChooseEditorMenu();
 		await this.dashboard.chooseEditor(editor);
-
 	}
 
 	async obtainWorkspaceNameFromStartingPage(): Promise<void> {

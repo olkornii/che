@@ -41,7 +41,6 @@ export class Dashboard {
 	private static readonly CONTINUE_WITH_DEFAULT_DEVFILE_BUTTON: By = By.xpath('//button[text()="Continue with default devfile"]');
 	private static readonly OPEN_EXISTING_WORKSPACE_LINK: By = By.xpath('//button[text()="Open the existing workspace"]');
 	private static readonly CHOOSE_EDITOR_MENU: By = By.xpath('//*[@id="accordion-item-selector"]');
-	private static readonly JETBRAINS_INTELLIJ_IDEA_ULTIMATE: By = By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]');
 
 	constructor(
 		@inject(CLASSES.DriverHelper)
