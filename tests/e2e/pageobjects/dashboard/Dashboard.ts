@@ -209,15 +209,17 @@ export class Dashboard {
 	}
 
 	async openChooseEditorMenu(timeout: number = TIMEOUT_CONSTANTS.TS_CLICK_DASHBOARD_ITEM_TIMEOUT): Promise<void> {
-		Logger.debug();
+		Logger.debug('open "choose Editor" menu');
 
 		await this.driverHelper.waitAndClick(Dashboard.CHOOSE_EDITOR_MENU, timeout);
 	}
 
 	async chooseEditor(editor: string, timeout: number = TIMEOUT_CONSTANTS.TS_CLICK_DASHBOARD_ITEM_TIMEOUT): Promise<void> {
-		Logger.debug();
+		Logger.debug('select Editor. Editor: ' + editor);
 
 		await this.driverHelper.waitAndClick(By.xpath(editor), timeout);
+		const result: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		Logger.debug("IDEA was selected: " + result);
 	}
 
 	private getAboutMenuItemButtonLocator(text: string): By {
