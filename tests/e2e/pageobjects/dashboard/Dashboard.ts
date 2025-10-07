@@ -10,7 +10,7 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { CLASSES } from '../../configs/inversify.types';
-import { Alert, By } from 'selenium-webdriver';
+import { Alert, By, WebElement } from 'selenium-webdriver';
 import { DriverHelper } from '../../utils/DriverHelper';
 import { TIMEOUT_CONSTANTS } from '../../constants/TIMEOUT_CONSTANTS';
 import { Workspaces } from './Workspaces';
@@ -217,9 +217,33 @@ export class Dashboard {
 	async chooseEditor(editor: string, timeout: number = TIMEOUT_CONSTANTS.TS_CLICK_DASHBOARD_ITEM_TIMEOUT): Promise<void> {
 		Logger.debug('select Editor. Editor: ' + editor);
 
+		// let element: WebElement = this.driverHelper.getDriver().findElement(By.xpath(editor));
+
 		await this.driverHelper.waitAndClick(By.xpath(editor), timeout);
 		const result: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
-		Logger.debug("IDEA was selected: " + result);
+		Logger.debug("1. IDEA was selected: " + result);
+
+		await this.driverHelper.getDriver().findElement(By.xpath(editor)).click();
+		const result_1: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		Logger.debug("2. IDEA was selected: " + result_1);
+
+		await this.driverHelper.getAction().click().perform();
+		const result_2: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		Logger.debug("3. IDEA was selected: " + result_2);
+
+		//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span
+
+		await this.driverHelper.waitAndClick(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span'), timeout);
+		const result_0_1: boolean = await this.driverHelper.getDriver().findElement(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span')).isSelected();
+		Logger.debug("0.1. IDEA was selected: " + result_0_1);
+		const result_1_1: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		Logger.debug("1.1. IDEA was selected: " + result_1_1);
+
+		await this.driverHelper.getDriver().findElement(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span')).click();
+		const result_0_2: boolean = await this.driverHelper.getDriver().findElement(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span')).isSelected();
+		Logger.debug("0.2. IDEA was selected: " + result_0_2);
+		const result_1_2: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		Logger.debug("1.2. IDEA was selected: " + result_1_2);
 	}
 
 	private getAboutMenuItemButtonLocator(text: string): By {
