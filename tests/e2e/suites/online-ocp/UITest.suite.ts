@@ -12,6 +12,7 @@ import '../../specs/dashboard-samples/EmptyWorkspace.spec';
 import '../../specs/dashboard-samples/Quarkus.spec';
 import '../../specs/dashboard-samples/RecommendedExtensions.spec';
 import '../../specs/dashboard-samples/Documentation.spec';
+import '../../specs/dashboard-samples/EditorSample.spec';
 import '../../specs/devconsole-intergration/DevConsoleIntegration.spec';
 import '../../specs/miscellaneous/CreateWorkspaceWithExistedName.spec';
 import '../../specs/miscellaneous/KubedockPodmanTest.spec';
