@@ -81,10 +81,13 @@ suite(`Check all versions of Intellij Idea`, function (): void {
 		// kubernetesCommandLineToolsExecutor.deleteDevWorkspace();
 	});
 
-	suiteTeardown('Delete default DevWorkspace', function (): void {
+	afterEach('Delete workspace', function (): void {
 		dashboard.openDashboard();
 		browserTabsUtil.closeAllTabsExceptCurrent();
 		workspaceHandlingTests.stopAndRemoveWorkspace(WorkspaceHandlingTests.getWorkspaceName());
+	});
+
+	suiteTeardown('Delete default DevWorkspace', function (): void {
 		kubernetesCommandLineToolsExecutor.deleteDevWorkspace();
 	});
 });
