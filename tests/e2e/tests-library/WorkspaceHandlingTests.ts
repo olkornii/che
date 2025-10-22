@@ -18,7 +18,7 @@ import { Logger } from '../utils/Logger';
 import { ApiUrlResolver } from '../utils/workspace/ApiUrlResolver';
 import { TIMEOUT_CONSTANTS } from '../constants/TIMEOUT_CONSTANTS';
 import { DriverHelper } from '../utils/DriverHelper';
-import { By, error } from 'selenium-webdriver';
+import { Alert, By, error, Key } from 'selenium-webdriver';
 
 @injectable()
 export class WorkspaceHandlingTests {
@@ -148,6 +148,84 @@ export class WorkspaceHandlingTests {
 		Logger.info('Start workspace status: ' + status);
 		Logger.info('Start workspace progress title: ' + alertTitle);
 		Logger.info('Start workspace progress description: ' + alertDescription);
+	}
+
+	async createAndOpenWorkspaceWithSpecificEditorAndSample(editor: string, stack: string): Promise<void> {
+		Logger.debug('create and open workspace with specific Editor and Sample. Sample: ' + stack);
+		await this.selectEditor(editor);
+		// await this.createAndOpenWorkspace(stack);
+		await this.driverHelper.wait(3000);
+
+		WorkspaceHandlingTests.parentGUID = await this.browserTabsUtil.getCurrentWindowHandle();
+		Logger.debug(WorkspaceHandlingTests.parentGUID);
+		Logger.debug("STAR HERE");
+		for (let id of await this.browserTabsUtil.getAllWindowHandles()) {
+			Logger.debug(id);
+		}
+
+		await this.createWorkspace.clickOnSampleNoEditorSelection(stack);
+		await this.browserTabsUtil.waitAndSwitchToAnotherWindow(WorkspaceHandlingTests.parentGUID, TIMEOUT_CONSTANTS.TS_IDE_LOAD_TIMEOUT);
+		await this.driverHelper.wait(60000);
+		this.obtainWorkspaceNameFromStartingPage();
+
+		// WorkspaceHandlingTests.parentGUID = await this.browserTabsUtil.getCurrentWindowHandle();
+		// Logger.debug(WorkspaceHandlingTests.parentGUID);
+		Logger.debug("STAR HERE");
+		for (let id of await this.browserTabsUtil.getAllWindowHandles()) {
+			Logger.debug(id);
+		}
+
+		await this.driverHelper.wait(240000);
+		// await this.browserTabsUtil.waitAndSwitchToAnotherWindow(WorkspaceHandlingTests.parentGUID, TIMEOUT_CONSTANTS.TS_IDE_LOAD_TIMEOUT);
+
+		// WorkspaceHandlingTests.parentGUID = await this.browserTabsUtil.getCurrentWindowHandle();
+		// Logger.debug(WorkspaceHandlingTests.parentGUID);
+		Logger.debug("STAR HERE");
+		for (let id of await this.browserTabsUtil.getAllWindowHandles()) {
+			Logger.debug(id);
+		}
+
+		await this.driverHelper.wait(30000);
+
+		Logger.debug("STAR HERE");
+		for (let id of await this.browserTabsUtil.getAllWindowHandles()) {
+			Logger.debug(id);
+		}
+
+		await this.driverHelper.getDriver().actions().sendKeys(Key.ESCAPE).perform(); // need to think about it a little
+		await this.driverHelper.wait(5000);
+		// await this.workspaces.waitWorkspaceWithRunningStatus(workspaceName);
+
+		Logger.debug(await this.driverHelper.getDriver().getCurrentUrl());
+
+		await this.driverHelper.wait(5000);
+
+		try {
+			const alert: Alert = await this.driverHelper.getDriver().switchTo().alert();
+			const alertText: string = await alert.getText();
+			Logger.info(`Alert detected, text: "${alertText}"`);
+			Logger.debug('Alert dismissing');
+			await alert.dismiss();
+		} catch (e) {
+			Logger.debug('No alert detected');
+		}
+
+		await this.driverHelper.wait(30000);
+	}
+
+	async selectEditor(editor: string): Promise<void> {
+		Logger.debug('select Editor. Editor: ' + editor)
+		await this.dashboard.openChooseEditorMenu();
+		await this.dashboard.chooseEditor(editor);
+	}
+
+	async getTextFromWorkspaceElement(xpath: string): Promise<string> {
+		// Logger.debug('closing popup');
+		// await this.driverHelper.wait(10000);
+		// await this.driverHelper.getDriver().actions().sendKeys(Key.ESCAPE).perform(); // need to think about it a little
+		Logger.debug('returning text from xPath: ' + xpath);
+		// await this.driverHelper.wait(1000000);
+		return await this.driverHelper.getDriver().findElement(By.xpath(xpath)).getText();
 	}
 
 	private async getWorkspaceAlertDescription(): Promise<string> {

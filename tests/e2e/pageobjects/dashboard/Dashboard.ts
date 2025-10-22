@@ -40,7 +40,8 @@ export class Dashboard {
 	};
 	private static readonly CONTINUE_WITH_DEFAULT_DEVFILE_BUTTON: By = By.xpath('//button[text()="Continue with default devfile"]');
 	private static readonly OPEN_EXISTING_WORKSPACE_LINK: By = By.xpath('//button[text()="Open the existing workspace"]');
-
+	private static readonly CHOOSE_EDITOR_MENU: By = By.xpath('//*[@id="accordion-item-selector"]');
+	
 	constructor(
 		@inject(CLASSES.DriverHelper)
 		readonly driverHelper: DriverHelper,
@@ -206,6 +207,63 @@ export class Dashboard {
 
 		await this.driverHelper.waitAndClick(Dashboard.CONTINUE_WITH_DEFAULT_DEVFILE_BUTTON, timeout);
 	}
+
+	async openChooseEditorMenu(timeout: number = TIMEOUT_CONSTANTS.TS_CLICK_DASHBOARD_ITEM_TIMEOUT): Promise<void> {
+		Logger.debug('open "choose Editor" menu');
+
+		await this.driverHelper.waitAndClick(Dashboard.CHOOSE_EDITOR_MENU, timeout);
+	}
+
+	async chooseEditor(editor: string, timeout: number = TIMEOUT_CONSTANTS.TS_CLICK_DASHBOARD_ITEM_TIMEOUT): Promise<void> {
+		Logger.debug('select Editor. Editor: ' + editor);
+
+		// let element: WebElement = this.driverHelper.getDriver().findElement(By.xpath(editor));
+
+		await this.driverHelper.wait(3000);
+
+		await this.driverHelper.waitAndClick(By.xpath(editor), timeout);
+		const result: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		Logger.debug("1. IDEA was selected: " + result);
+
+		await this.driverHelper.wait(3000);
+
+		// await this.driverHelper.getDriver().findElement(By.xpath(editor)).click();
+		// const result_1: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		// Logger.debug("2. IDEA was selected: " + result_1);
+
+		// await this.driverHelper.getAction().click().perform();
+		// const result_2: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		// Logger.debug("3. IDEA was selected: " + result_2);
+
+		//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span
+
+		// await this.driverHelper.waitAndClick(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span'), timeout);
+		// const result_0_1: boolean = await this.driverHelper.getDriver().findElement(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span')).isSelected();
+		// Logger.debug("0.1. IDEA was selected: " + result_0_1);
+		// const result_1_1: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		// Logger.debug("1.1. IDEA was selected: " + result_1_1);
+
+		// await this.driverHelper.getDriver().findElement(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span')).click();
+		// const result_0_2: boolean = await this.driverHelper.getDriver().findElement(By.xpath('//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]/div[2]/span')).isSelected();
+		// Logger.debug("0.2. IDEA was selected: " + result_0_2);
+		// const result_1_2: boolean = await this.driverHelper.getDriver().findElement(By.xpath(editor)).isSelected();
+		// Logger.debug("1.2. IDEA was selected: " + result_1_2);
+	}
+
+
+	// async closeIntellijPopup(): Promise<void> {
+	// 	Logger.debug();
+
+	// 	try {
+	// 		const alert: Alert = await this.driverHelper.getDriver().switchTo().alert();
+	// 		const alertText: string = await alert.getText();
+	// 		Logger.info(`Alert detected, text: "${alertText}"`);
+	// 		Logger.debug('Alert accepting');
+	// 		await alert.accept();
+	// 	} catch (e) {
+	// 		Logger.debug('No alert detected');
+	// 	}
+	// }
 
 	private getAboutMenuItemButtonLocator(text: string): By {
 		return By.xpath(`//li/button[text()="${text}"]`);
