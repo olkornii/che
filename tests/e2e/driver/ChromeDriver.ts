@@ -40,7 +40,16 @@ export class ChromeDriver implements IDriver {
 			.addArguments('--enable-clipboard-read')
 			.addArguments('--enable-clipboard-write')
 			.addArguments('--deny-permission-prompts')
-			.addArguments('--disable-popup-blocking');
+			.addArguments('--disable-popup-blocking')
+			.addArguments('--disable-notifications')
+			.setUserPreferences({ 'protocol_handler.prompt_user': false })
+			.addArguments('--disable-protocol-handler-prompts')
+			.setUserPreferences({ 'profile.default_content_setting_values.protocol_handlers': 2 });
+
+		// const globalProtocolBlockerPrefs = {'profile.default_content_setting_values.protocol_handlers': 2 };
+		// options = options.setUserPreferences({
+		// 	'protocol_handler.prompt_user': false,
+		// })
 
 		// if 'true' run in 'headless' mode
 		if (CHROME_DRIVER_CONSTANTS.TS_SELENIUM_HEADLESS) {
@@ -55,7 +64,13 @@ export class ChromeDriver implements IDriver {
 	}
 
 	private getDriverBuilder(options: Options): Builder {
-		const disableW3copts: object = { 'goog:chromeOptions': { w3c: false } };
+		const disableW3copts: object = {
+			'goog:chromeOptions': {
+				w3c: false,
+				'protocol_handler.prompt_user': false,
+				'profile.default_content_setting_values.protocol_handlers': 2
+			}
+		};
 		let builder: Builder = new Builder().forBrowser('chrome').setChromeOptions(options);
 
 		// if 'false' w3c protocol is disabled
