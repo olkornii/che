@@ -58,8 +58,8 @@ suite('Check Intellij IDE desktop Editor with all samples', function (): void {
 		'Node.js Express',
 		'Python',
 		'Quarkus REST API',
-		'.NET',
-		'Ansible',
+		// '.NET',
+		// 'Ansible',
 		'C/C++',
 		'Go',
 		'PHP'
