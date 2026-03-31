@@ -26,6 +26,7 @@ export class CreateWorkspace {
 	private static readonly CREATE_AND_OPEN_BUTTON: By = By.xpath('//button[@id="create-and-open-button"]');
 	private static readonly CREATE_NEW_WORKPACE_CHECKBOX: By = By.xpath('//label[@for="create-new-if-exist-switch"]');
 	private static readonly CREATE_NEW_WORKPACE_CHECKBOX_VALUE: By = By.xpath('//input[@id="create-new-if-exist-switch"]');
+	private static readonly WORKSPACE_NAME_INPUT_FIELD: By = By.xpath('//*[@id="wrks-name-input"]');
 
 	constructor(
 		@inject(CLASSES.DriverHelper)
@@ -159,6 +160,10 @@ export class CreateWorkspace {
 		Logger.debug(`Checkbox is ${isCurrentlyChecked ? 'set' : 'unset'}, ${checked ? 'setting' : 'unsetting'} it now`);
 		await this.driverHelper.waitAndClick(CreateWorkspace.CREATE_NEW_WORKPACE_CHECKBOX, timeout);
 		await this.driverHelper.wait(1000);
+	}
+
+	async setWorkspaceName(workspaceName: string): Promise<void> {
+		await this.driverHelper.type(CreateWorkspace.WORKSPACE_NAME_INPUT_FIELD, workspaceName);
 	}
 
 	private getEditorsDropdownListLocator(sampleName: string): By {
