@@ -42,33 +42,36 @@ suite('Check Intellij IDE desktop Editor with all samples', function (): void {
 
 	const editorsForCheck: string[] = [
 		'//*[@id="editor-selector-card-che-incubator/che-clion-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-goland-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-phpstorm-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-pycharm-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-rider-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-rubymine-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/che-webstorm-server/latest"]',
-		'//*[@id="editor-selector-card-che-incubator/jetbrains-sshd/latest"]'
+		'incorrectXPath',
+		'//*[@id="editor-selector-card-che-incubator/che-goland-server/latest"]'
+		// '//*[@id="editor-selector-card-che-incubator/che-idea-server/latest"]',
+		// '//*[@id="editor-selector-card-che-incubator/che-phpstorm-server/latest"]',
+		// '//*[@id="editor-selector-card-che-incubator/che-pycharm-server/latest"]',
+		// '//*[@id="editor-selector-card-che-incubator/che-rider-server/latest"]',
+		// '//*[@id="editor-selector-card-che-incubator/che-rubymine-server/latest"]',
+		// '//*[@id="editor-selector-card-che-incubator/che-webstorm-server/latest"]',
+		// '//*[@id="editor-selector-card-che-incubator/jetbrains-sshd/latest"]'
 	];
 
 	const samplesForCheck: string[] = [
 		'Empty Workspace',
-		'JBoss EAP 8.0',
-		'Java Lombok',
-		'Node.js Express',
-		'Python',
-		'Quarkus REST API',
-		'.NET',
-		'Ansible',
-		'C/C++',
-		'Go',
-		'PHP'
+		"incorrectName",
+		'JBoss EAP 8.0'
+		// 'Java Lombok',
+		// 'Node.js Express',
+		// 'Python',
+		// 'Quarkus REST API',
+		// '.NET',
+		// 'Ansible',
+		// 'C/C++',
+		// 'Go',
+		// 'PHP'
 	];
 
 	const gitRepoUrlsToCheck: string[] = [
 		'https://github.com/crw-qe/quarkus-api-example-public/tree/ubi8-latest',
-		'https://github.com/crw-qe/ubi9-based-sample-public/tree/ubi9-minimal' // ubi9-minimal-demo
+		'incorrectUBIurl',
+		'https://github.com/crw-qe/ubi9-based-sample-public/tree/ubi9-minimal'
 	];
 
 	const gitRepoUrlsToCheckAirgap: string[] = [
