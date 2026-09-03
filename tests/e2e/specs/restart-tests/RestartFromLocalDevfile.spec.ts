@@ -113,12 +113,8 @@ suite(`Test case with empty workspace (per-user storage) ${BASE_TEST_CONSTANTS.T
 	test('Restart workspace from local devfile with bad image', async function (): Promise<void> {
 		await restartWorkspaceDialog.restartFromLocalDevfile(projectName);
 
-		try {
-			const alert: any = await driverHelper.getDriver().switchTo().alert();
-			Logger.info(`DEBUG: Alert detected before confirmRestartWorkspace! Text: "${await alert.getText()}"`);
-		} catch (e) {
-			Logger.info('DEBUG: No alert present before confirmRestartWorkspace');
-		}
+		Logger.info('Waiting 5 seconds before looking for restart confirmation popup');
+		await driverHelper.wait(5000);
 
 		Logger.info('Waiting for "Restart Workspace" confirmation popup');
 		await restartWorkspaceDialog.confirmRestartWorkspace();
@@ -290,12 +286,8 @@ suite(`Test case with pvc-fail workspace (bad image restart) ${BASE_TEST_CONSTAN
 	test('Restart workspace from local devfile with bad image', async function (): Promise<void> {
 		await restartWorkspaceDialog.restartFromLocalDevfile(projectName);
 
-		try {
-			const alert: any = await driverHelper.getDriver().switchTo().alert();
-			Logger.info(`DEBUG: Alert detected before confirmRestartWorkspace! Text: "${await alert.getText()}"`);
-		} catch (e) {
-			Logger.info('DEBUG: No alert present before confirmRestartWorkspace');
-		}
+		Logger.info('Waiting 5 seconds before looking for restart confirmation popup');
+		await driverHelper.wait(5000);
 
 		Logger.info('Waiting for "Restart Workspace" confirmation popup');
 		await restartWorkspaceDialog.confirmRestartWorkspace();
