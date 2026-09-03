@@ -118,9 +118,18 @@ suite(`Test case with empty workspace (per-user storage) ${BASE_TEST_CONSTANTS.T
 			await restartWorkspaceDialog.confirmRestartWorkspace();
 		} catch (err) {
 			if (err instanceof error.UnexpectedAlertOpenError) {
-				Logger.info('UnexpectedAlertOpenError caught, retrying confirmRestartWorkspace');
-				await driverHelper.wait(1000);
-				await restartWorkspaceDialog.confirmRestartWorkspace();
+				let alertText: string = '';
+				try {
+					alertText = await driverHelper.getDriver().switchTo().alert().getText();
+				} catch (alertErr) {
+					// alert already auto-dismissed by Chrome
+				}
+				if (alertText === '') {
+					Logger.info('UnexpectedAlertOpenError with empty text caught, retrying confirmRestartWorkspace');
+					await restartWorkspaceDialog.confirmRestartWorkspace();
+				} else {
+					throw new error.UnexpectedAlertOpenError(`unexpected alert with text: "${alertText}"`);
+				}
 			} else {
 				throw err;
 			}
@@ -298,9 +307,18 @@ suite(`Test case with pvc-fail workspace (bad image restart) ${BASE_TEST_CONSTAN
 			await restartWorkspaceDialog.confirmRestartWorkspace();
 		} catch (err) {
 			if (err instanceof error.UnexpectedAlertOpenError) {
-				Logger.info('UnexpectedAlertOpenError caught, retrying confirmRestartWorkspace');
-				await driverHelper.wait(1000);
-				await restartWorkspaceDialog.confirmRestartWorkspace();
+				let alertText: string = '';
+				try {
+					alertText = await driverHelper.getDriver().switchTo().alert().getText();
+				} catch (alertErr) {
+					// alert already auto-dismissed by Chrome
+				}
+				if (alertText === '') {
+					Logger.info('UnexpectedAlertOpenError with empty text caught, retrying confirmRestartWorkspace');
+					await restartWorkspaceDialog.confirmRestartWorkspace();
+				} else {
+					throw new error.UnexpectedAlertOpenError(`unexpected alert with text: "${alertText}"`);
+				}
 			} else {
 				throw err;
 			}
