@@ -107,6 +107,12 @@ export class DriverHelper {
 			} catch (err) {
 				if (i >= attempts - 1) {
 					Logger.error(`failed with exception, out of attempts - ${err}`);
+					try {
+						const alert: any = await this.driver.switchTo().alert();
+						Logger.error(`DEBUG: Alert is open during waitVisibility! Text: "${await alert.getText()}"`);
+					} catch (alertErr) {
+						Logger.error('DEBUG: No alert present during unexpected exception');
+					}
 					throw err;
 				}
 
@@ -125,12 +131,6 @@ export class DriverHelper {
 				}
 
 				Logger.error(`failed with an unexpected exception - ${err}`);
-				try {
-					const alert: any = await this.driver.switchTo().alert();
-					Logger.error(`DEBUG: Alert is open during waitVisibility! Text: "${await alert.getText()}"`);
-				} catch (alertErr) {
-					Logger.error('DEBUG: No alert present during unexpected exception');
-				}
 				throw err;
 			}
 
