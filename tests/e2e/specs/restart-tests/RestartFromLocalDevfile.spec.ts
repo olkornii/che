@@ -26,7 +26,7 @@ import { BrowserTabsUtil } from '../../utils/BrowserTabsUtil';
 import { DriverHelper } from '../../utils/DriverHelper';
 import { ProjectAndFileTests } from '../../tests-library/ProjectAndFileTests';
 import { RestartWorkspaceDialog } from '../../pageobjects/ide/RestartWorkspaceDialog';
-import { By } from 'selenium-webdriver';
+import { By, error } from 'selenium-webdriver';
 import { registerRunningWorkspace } from '../MochaHooks';
 
 suite(`Test case with empty workspace (per-user storage) ${BASE_TEST_CONSTANTS.TEST_ENVIRONMENT}`, function (): void {
@@ -113,11 +113,18 @@ suite(`Test case with empty workspace (per-user storage) ${BASE_TEST_CONSTANTS.T
 	test('Restart workspace from local devfile with bad image', async function (): Promise<void> {
 		await restartWorkspaceDialog.restartFromLocalDevfile(projectName);
 
-		Logger.info('Waiting 5 seconds before looking for restart confirmation popup');
-		await driverHelper.wait(5000);
-
 		Logger.info('Waiting for "Restart Workspace" confirmation popup');
-		await restartWorkspaceDialog.confirmRestartWorkspace();
+		try {
+			await restartWorkspaceDialog.confirmRestartWorkspace();
+		} catch (err) {
+			if (err instanceof error.UnexpectedAlertOpenError) {
+				Logger.info('UnexpectedAlertOpenError caught, retrying confirmRestartWorkspace');
+				await driverHelper.wait(1000);
+				await restartWorkspaceDialog.confirmRestartWorkspace();
+			} else {
+				throw err;
+			}
+		}
 	});
 
 	test('Wait for workspace start failure and restart', async function (): Promise<void> {
@@ -286,11 +293,18 @@ suite(`Test case with pvc-fail workspace (bad image restart) ${BASE_TEST_CONSTAN
 	test('Restart workspace from local devfile with bad image', async function (): Promise<void> {
 		await restartWorkspaceDialog.restartFromLocalDevfile(projectName);
 
-		Logger.info('Waiting 5 seconds before looking for restart confirmation popup');
-		await driverHelper.wait(5000);
-
 		Logger.info('Waiting for "Restart Workspace" confirmation popup');
-		await restartWorkspaceDialog.confirmRestartWorkspace();
+		try {
+			await restartWorkspaceDialog.confirmRestartWorkspace();
+		} catch (err) {
+			if (err instanceof error.UnexpectedAlertOpenError) {
+				Logger.info('UnexpectedAlertOpenError caught, retrying confirmRestartWorkspace');
+				await driverHelper.wait(1000);
+				await restartWorkspaceDialog.confirmRestartWorkspace();
+			} else {
+				throw err;
+			}
+		}
 	});
 
 	test('Wait for workspace start failure and restart with default devfile', async function (): Promise<void> {
